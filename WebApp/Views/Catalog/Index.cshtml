@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApp.Models.Product>
+﻿@model IEnumerable<Product>
 
 @{
     ViewBag.Title = "Каталог товаров";
@@ -12,6 +12,7 @@
             <th>Id</th>
             <th>Название</th>
             <th>Цена</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -21,6 +22,11 @@
                 <td>@product.Id</td>
                 <td>@product.Name</td>
                 <td>@product.Price.ToString("C")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@product.Id">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </td>
             </tr>
         }
         </tbody>
