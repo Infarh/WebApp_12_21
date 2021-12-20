@@ -5,6 +5,8 @@ services.AddControllersWithViews();
 
 var app = builder.Build();
 
+app.UseStaticFiles(/*new StaticFileOptions { ServeUnknownFileTypes = true }*/);
+
 app.UseRouting();
 
 //app.MapDefaultControllerRoute();
