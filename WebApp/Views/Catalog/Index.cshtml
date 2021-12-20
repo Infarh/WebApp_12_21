@@ -20,12 +20,19 @@
         {
             <tr>
                 <td>@product.Id</td>
-                <td>@product.Name</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@product.Id">
+                        @product.Name
+                    </a>
+                </td>
                 <td>@product.Price.ToString("C")</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@product.Id">
                         <i class="fa fa-edit"></i>
-                    </a>
+                    </a>|
+                    <form asp-action="DeleteConfirmed" asp-route-id="@product.Id">
+                        <input type="submit" value="del" class="btn btn-sm btn-danger"/>
+                    </form>
                 </td>
             </tr>
         }

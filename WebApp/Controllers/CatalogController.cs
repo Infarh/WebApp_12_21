@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApp.Data;
 using WebApp.Models;
+using WebApp.Services.Interfaces;
 using WebApp.ViewModels;
 
 namespace WebApp.Controllers;
@@ -8,22 +8,39 @@ namespace WebApp.Controllers;
 public class CatalogController : Controller
 {
     private readonly ILogger<CatalogController> _Logger;
-    private readonly ICollection<Product> _Products;
+    private readonly IProductsStore _Products;
 
-    public CatalogController(ILogger<CatalogController> Logger)
+    public CatalogController(IProductsStore Products, ILogger<CatalogController> Logger)
     {
-        _Products = TestData.Products;
+        _Products = Products;
         _Logger = Logger;
     }
 
     public IActionResult Index()
     {
-        return View(_Products);
+        var products = _Products.GetAll();
+        return View(products);
+    }
+
+    public IActionResult Details(int id)
+    {
+        var product = _Products.GetById(id);
+        if (product is null)
+            return NotFound();
+
+        var model = new ProductViewModel
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price,
+        };
+
+        return View(model);
     }
 
     public IActionResult Edit(int id)
     {
-        var product = _Products.FirstOrDefault(p => p.Id == id);
+        var product = _Products.GetById(id);
         if (product is null)
             return NotFound();
 
@@ -43,13 +60,38 @@ public class CatalogController : Controller
         if (!ModelState.IsValid)
             return View(Model);
 
-        var product = _Products.FirstOrDefault(p => p.Id == Model.Id);
+        var product = new Product
+        {
+            Id = Model.Id,
+            Name = Model.Name,
+            Price = Model.Price,
+        };
+
+        _Products.Update(product);
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    public IActionResult Delete(int id)
+    {
+        var product = _Products.GetById(id);
         if (product is null)
             return NotFound();
 
-        product.Name = Model.Name;
-        product.Price = Model.Price;
+        var model = new ProductViewModel
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price,
+        };
 
-        return RedirectToAction(nameof(Index));
+        return View(model);
+    }
+
+    [HttpPost]
+    public IActionResult DeleteConfirmed(int id)
+    {
+        _Products.Delete(id);
+        return RedirectToAction("Index");
     }
 }
