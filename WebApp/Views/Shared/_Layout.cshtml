@@ -6,6 +6,8 @@
     <title>@ViewBag.Title - Тестовое приложение</title>
 
     <partial name="Partial/_Styles"/>
+
+    @await RenderSectionAsync("Styles", false)
 </head>
 <body>
     <partial name="Partial/_Header"/>
@@ -15,5 +17,8 @@
     </main>
 
     <partial name="Partial/_Scripts"/>
+
+    @await RenderSectionAsync("Scripts", false)
+
 </body>
 </html>
