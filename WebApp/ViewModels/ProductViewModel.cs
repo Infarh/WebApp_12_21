@@ -9,7 +9,8 @@ public class ProductViewModel
     public int Id { get; set; }
 
     [Display(Name = "Название")]
-    [StringLength(255, MinimumLength = 5)]
+    [StringLength(255, MinimumLength = 5, ErrorMessage = "Длина имени должна быть от 5 до 255 символов")]
+    [RegularExpression("Product-\\d+")]
     //[DataType(DataType.Password)]
     public string Name { get; set; }
 
