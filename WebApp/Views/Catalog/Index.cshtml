@@ -1,0 +1,32 @@
+﻿@model IEnumerable<WebApp.Models.Product>
+
+@{
+    ViewBag.Title = "Каталог товаров";
+}
+
+@if (Model?.Any() == true)
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Название</th>
+            <th>Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>
+                <td>@product.Price.ToString("C")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Товары отсутствуют</p>
+}
