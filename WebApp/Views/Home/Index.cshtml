@@ -1,8 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Index";
+
+    string GetCurrentTime() => DateTime.Now.ToString("T");
 }
 
 <h1>Index</h1>
+
+<p>@GetCurrentTime()</p>
 
 @section Styles
 {
